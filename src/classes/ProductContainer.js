@@ -1,7 +1,7 @@
 const fs = require("fs");
 const Product = require("./Product.js");
 
-class Contenedor {
+class ProductContainer {
   constructor(path) {
     this.path = path;
   }
@@ -51,6 +51,17 @@ class Contenedor {
       return this.returnMessage(false, "Producto guardado", newProduct);
     } catch (error) {
       return this.returnMessage(true, "Error al guardar el producto", null);
+    }
+  }
+
+  async getLastProduct() {
+    try {
+      const products = (await this.getAll()).payload;
+      const lastProduct = products[products.length - 1];
+
+      return this.returnMessage(false, "Ultimo producto", lastProduct);
+    } catch (error) {
+      return this.returnMessage(true, "Error al obtener el ultimo producto", null);
     }
   }
 
@@ -161,4 +172,4 @@ class Contenedor {
   }
 }
 
-module.exports = Contenedor;
+module.exports = ProductContainer;

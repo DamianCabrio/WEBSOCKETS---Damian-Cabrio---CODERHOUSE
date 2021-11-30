@@ -1,9 +1,12 @@
 const express = require("express");
 const upload = require("../services/upload.js");
-const Contenedor = require("./../classes/Contenedor.js");
+const productContainerClass = require("../classes/ProductContainer.js");
+const io = require("../services/io.js");
 
 const router = express.Router();
-const productContainer = new Contenedor("./data/products.txt");
+const productContainer = new productContainerClass(
+  __dirname + "/../data/products.txt"
+);
 
 const filePath = (protocol, hostname, filename) => {
   return `${protocol}://${hostname}:8080/images/${filename}`;
@@ -32,6 +35,11 @@ router.post("/", upload.single("thumbnail"), (req, res) => {
     product.thumbnail = thumbnail;
     productContainer.save(product).then((product) => {
       res.send(product);
+      if (product.status === "success") {
+        productContainer.getAll().then((products) => {
+          io.emit("deliverProducts", products.payload);
+        });
+      }
     });
   } else {
     res.send(

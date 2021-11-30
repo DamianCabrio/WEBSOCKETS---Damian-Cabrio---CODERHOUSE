@@ -16,7 +16,7 @@ server.on("error", (error) => console.log(`Error en servidor: ${error}`));
 
 app.use(cors());
 app.engine("handlebars", engine());
-app.set("views", "./views");
+app.set("views", __dirname +  "/views");
 app.set("view engine", "handlebars");
 
 app.use(express.json({ limit: "5mb" }));

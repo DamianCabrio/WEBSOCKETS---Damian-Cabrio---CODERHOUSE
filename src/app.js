@@ -28,7 +28,7 @@ app.use("/api/productos", productRouter);
 const io = new Server(server);
 
 
-const contenedor = new Contenedor("./data/products.txt");
+const contenedor = new Contenedor(__dirname + "/data/products.txt");
 
 app.get("/", (_, res) => {
   contenedor.getAll().then((result) => {

@@ -68,7 +68,15 @@ const sendMessage = (event) => {
 
 const createMessage = (message) => {
   const div = document.createElement("div");
-  div.innerHTML = `<p>${message.user} dice: ${message.message}</p>`;
+  const tmpDiv = document.createElement("div");
+  tmpDiv.innerHTML = message.message;
+  const finalMessage = tmpDiv.textContent || tmpDiv.innerText;
+
+  tmpDiv.innerHTML = message.user;
+  const finalUser = tmpDiv.textContent || tmpDiv.innerText;
+  tmpDiv.remove();
+
+  div.innerHTML = `<p>${finalUser} dice: ${finalMessage}</p>`;
   document.getElementById("messages").appendChild(div);
 };
 
